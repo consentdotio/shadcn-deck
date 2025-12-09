@@ -16,11 +16,23 @@ export function SlidePageWrapper({ slug }: { slug: string }) {
 	// Sync URL slug with store when services are ready and slug differs
 	useEffect(() => {
 		if (isServicesInitialized && currentSlug !== slug) {
-			console.log('🔄 SlidePageWrapper: Syncing URL slug with store:', {
-				urlSlug: slug,
-				storeSlug: currentSlug,
-			});
-			setSlug(slug);
+			const isViewTransitionActive = 
+				typeof document !== 'undefined' && 
+				'startViewTransition' in document &&
+				document.getAnimations().length > 0;
+			
+			if (!isViewTransitionActive) {
+				console.log('🔄 SlidePageWrapper: Syncing URL slug with store:', {
+					urlSlug: slug,
+					storeSlug: currentSlug,
+				});
+				setSlug(slug);
+			} else {
+				console.log('⏸️ SlidePageWrapper: Skipping sync during view transition:', {
+					urlSlug: slug,
+					storeSlug: currentSlug,
+				});
+			}
 		}
 	}, [slug, currentSlug, isServicesInitialized, setSlug]);
 

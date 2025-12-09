@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
 		globalNotFound: true,
 
 		// Enable persistent caching for the turbopack dev server and build.
-		turbopackPersistentCaching: true,
+		turbopackFileSystemCacheForDev: true,
 
 		inlineCss: true,
 	},
